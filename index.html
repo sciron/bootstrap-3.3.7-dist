@@ -18,59 +18,17 @@
   <script src="js/moment-with-locales.min.js" type="text/javascript"></script>
   <script src="js/bootstrap-datetimepicker.min.js" type="text/javascript" ></script>
 
-  <script type="text/javascript"> 
+  <script type="text/javascript">
+    function getDirection() {
+    var _From = document.getElementById('DirectionFrom').value;
+    var _To = document.getElementById('DestinationTo').value;
+    var modalFrom = document.getElementById('modalFrom');
+    var modalTo = document.getElementById('modalTo');
+    modalFrom.value = _From;
+    modalTo.value = _To;
+  }
+  </script>
 
-    function getPrice(_to, _priceSpan) { 
-    var prices = new Array(5); 
-    prices[0] = 1000; 
-    prices[1] = 2000; 
-    prices[2] = 3000; 
-    prices[3] = 4000; 
-    prices[4] = 5000; 
-    var index = $(_to + " option").index($(_to + " option:selected")); 
-    $(_priceSpan).text(prices[index]); 
-    } 
-
-    function PlacesToGo() { 
-    var placesToGo = ["Новоебенёво", "Москвабад", "Дагестан", "Работа", "Другое"]; 
-    return placesToGo; 
-    } 
-
-    function fillFromTo(_to) { 
-    var placesToGo = PlacesToGo(); 
-    var selectTo = $(_to); 
-    if (selectTo.size>0) 
-    return; 
-    for (var i = 0; i < placesToGo.length; i++) { 
-    selectTo.append($("<option />").val(placesToGo[i]).text(placesToGo[i])); 
-    } 
-    getPrice(_to); 
-    }; 
-
-    function checkAirport() { 
-    $("#toAirportCheck").prop('checked') ? $("#directionSpan").text("Откуда:") : 
-    $("#directionSpan").text("Куда:"); 
-    } 
-
-    function checkAnotherLocation(_to, _otherLocationInput) { 
-    var selectTo = $(_to); 
-    selectTo.val() === "Другое" ? 
-    $(_otherLocationInput).show() : 
-    $(_otherLocationInput).hide(); 
-    } 
-
-    window.onload = function() { 
-    fillFromTo("#selectTo"); 
-    fillFromTo('#modalSelect'); 
-    }; 
-
-    function selectModal(_to,_modalSelect) 
-    { 
-    var modalSelect = $(_modalSelect); 
-    var to = $(_to); 
-    modalSelect.val(to.val()); 
-    }
-    </script>
 </head>
 
 <body>
@@ -94,25 +52,37 @@
   <div class="container">
 
   <div class="jumbotron">
-    <div class="col-md-12">
-        <div class="col-md-8">
-            <span id="directionSpan">Куда:</span> 
-            <select class="form-control" id="selectTo" onchange="checkAnotherLocation('#selectTo','#otherLocationInput'); getPrice('#selectTo','#priceSpan');">
-            </select> 
-            <input type="text" id="otherLocationInput" class="form-control" placeholder="Введите адрес" style="display:none" />
-            <div class="checkbox">
-              <label> 
-              <input type="checkbox" value="" id="toAirportCheck" onchange="checkAirport();"> 
-              В аэропорт 
-              </label>
-              <span id="priceSpan" class="label label-primary"></span>
-            </div>
-        </div>   
+    <div class="row">
+      <div class="col-md-12">
+          <div class="col-md-6">
+              <span id="directionSpan">Откуда:</span> 
+              <input list="Direction" class="form-control" id="DirectionFrom"></input>
+          </div>
+          <div class="col-md-6">
+              <span id="destinationSpan">Куда:</span> 
+              <input list="Direction" class="form-control" id="DestinationTo"></input>
+          </div>
+          <datalist id="Direction">
+            <option>Аэропорт</option>
+            <option>Адлер</option>
+            <option>Дагомыс</option>
+            <option>Красная поляна</option>
+            <option>Краснодар</option>
+            <option>Кудепста</option>
+            <option>Лазаревское</option>
+            <option>Лоо</option>
+            <option>Олимпийский парк</option>
+            <option>Псоу</option>
+            <option>Сочи</option>
+            <option>Туапсе</option>
+            <option>Хоста</option>
+          </datalist>  
+      </div>
     </div>
-    
-    <div class="col-md-12 text-center">
-        <button type="button" class="btn btn-lg btn-success" data-toggle="modal" onclick="selectModal('#selectTo','#modalSelect')" data-target="#ZakazModal">Заказать такси</button>
-     <br></br>
+    <div class="row">
+      <div class="col-md-12 text-center">
+          <button type="button" class="btn btn-lg btn-success" data-toggle="modal" onclick="getDirection()" data-target="#ZakazModal">Заказать такси</button>
+      </div>
     </div>
 
     <div class="text-center">
@@ -166,20 +136,16 @@
             </div> 
           </div> 
 
-          <div class="row"> 
-            <div class="col-md-9"> 
-              <select class="form-control">
-              </select>
-            </div> 
-            <div class="col-md-3"> 
-              <div class="checkbox"> 
-                <label> 
-                <input type="checkbox" value="" id="toAirportCheck" onchange="checkAirport();"> 
-                В аэропорт 
-                </label> 
-              </div> 
-            </div> 
-          </div> 
+          <div class="row">
+                <div class="col-md-6">
+                    <span id="directionSpan">Откуда:</span> 
+                    <input list="Direction" class="form-control" id="modalFrom"></input>
+                </div>
+                <div class="col-md-6">
+                    <span id="destinationSpan">Куда:</span> 
+                    <input list="Direction" class="form-control" id="modalTo"></input>
+                </div>
+          </div>
 
           <div class="row"> 
             <div class="col-md-6 text-center"> 
